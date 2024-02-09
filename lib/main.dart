@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:popular_artists/detail.dart';
+import 'package:popular_artists/model/artists_popular.dart';
 
 void main() => runApp(const MyApp());
 
@@ -42,8 +44,48 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body:   Padding(
         padding: EdgeInsets.all(16.0),
-        child: Column(
-
+        child: ListView.builder(
+          itemBuilder: (context, index){
+            final Artist artist = artistList[index];
+            return InkWell(
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context){
+                  return DetailScreen(artist: artist,);
+                }));
+              },
+              child: Card(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Expanded(
+                      flex: 1,
+                      child:Image.asset(artist.imageAsset),
+                    ),
+                    Expanded(
+                        flex: 2,
+                        child: Padding(padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Text(
+                                artist.name,
+                                style: const TextStyle(fontSize: 16.0),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Text(artist.genre)
+                            ],
+                          ),
+                        )
+                    )
+                  ],
+                ),
+              ),
+            );
+          },
+          itemCount: artistList.length,
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
